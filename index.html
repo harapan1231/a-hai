@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>あ、はい。</title>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if="!processing">
+            <button v-on:click="play">あ、はい。</button>
+        </div>
+        <img v-else :src="aldebaran" alt=""  transition="v-slide-x-transition">
+    </div> 
+    <script>
+    const consts = {
+        event_counter: 5,
+    };
+
+    // sleep time expects milliseconds
+    function sleep (time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            counter: 0,
+            processing: false,
+            aldebaran: "",
+        },
+        methods: {
+            get_aldebaran: function() {
+            },
+            play: function(event) {
+                vm.counter++;
+                var audio_file;
+                if (vm.counter === consts.event_counter) {
+                    audio_file = "./sound/a_haihaihaihai_gr.mp3";
+                    vm.aldebaran = "./img/aldebaran-greathorn.jpg";
+                    vm.counter = 0;
+                } else {
+                    audio_file = 0.7 < Math.random() ? "./sound/a_hai_br.mp3" : "./sound/a_hai_gr.mp3";
+                    vm.aldebaran = "./img/aldebaran-appearance.jpg";
+                }
+                vm.processing = true;
+                const audio = new Audio(audio_file);
+                audio.onloadedmetadata = function(e) {
+                    audio.play();
+                    sleep(e.target.duration * 1000).then(function() {
+                        vm.processing = false;
+                    });
+                };
+            },
+        },
+    });
+    </script>
+</body>
+</html>
