@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>あ、はい。</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulma/css/bulma.css"></script>
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 </head>
 <body>
-    <div id="app">
+    <div id="app" class="container" style="text-align: center;">
         <div v-if="!processing">
-            <button v-on:click="play">あ、はい。</button>
+            <a class="button is-dark" v-on:click="play">あ、はい。</a>
         </div>
         <img v-else :src="aldebaran" alt=""  transition="v-slide-x-transition">
     </div> 
