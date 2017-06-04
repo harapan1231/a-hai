@@ -10,8 +10,10 @@
 </head>
 <body>
     <div id="app" class="container" style="text-align: center;">
-        <div v-if="!processing">
-            <a class="button is-dark" v-on:click="play">あ、はい。</a>
+        <div v-if="!processing" class="tile is-parent is-vertical">
+            <a class="button is-dark tile is-child" v-on:click="play">あ、はい。</a>
+            <a class="button is-dark tile is-child" v-on:click="play('a_hai_br')">あ...はい。</a>
+            <a class="button is-dark tile is-child" v-on:click="play('a_haihaihaihai_gr')">あー、はいはいはいはい。</a>
         </div>
         <img v-else :src="aldebaran" alt=""  transition="v-slide-x-transition">
     </div> 
@@ -28,7 +30,6 @@
     var vm = new Vue({
         el: "#app",
         data: {
-            counter: 0,
             processing: false,
             aldebaran: "",
             a_hai_gr_audio: undefined,
@@ -41,16 +42,21 @@
           this.a_haihaihaihai_gr_audio = new Audio("./sound/a_haihaihaihai_gr.mp3");
         },
         methods: {
-            play: function(event) {
-                vm.counter++;
+            play: function(audio_type) {
                 var audio;
-                if (vm.counter === consts.event_counter) {
-                    audio = vm.a_haihaihaihai_gr_audio;
-                    vm.aldebaran = "./img/aldebaran-greathorn.jpg";
-                    vm.counter = 0;
-                } else {
-                    audio = 0.7 < Math.random() ? vm.a_hai_br_audio : vm.a_hai_gr_audio;
-                    vm.aldebaran = "./img/aldebaran-appearance.jpg";
+                switch (audio_type) {
+                    case "a_hai_br":
+                        audio = vm.a_hai_br_audio; 
+                        vm.aldebaran = "./img/aldebaran-appearance.jpg";
+                        break;
+                    case "a_haihaihaihai_gr":
+                        audio = vm.a_haihaihaihai_gr_audio; 
+                        vm.aldebaran = "./img/aldebaran-greathorn.jpg";
+                        break;
+                    default:
+                        audio = vm.a_hai_gr_audio; 
+                        vm.aldebaran = "./img/aldebaran-appearance.jpg";
+                        break;
                 }
                 vm.processing = true;
                 audio.play();
